@@ -67,10 +67,6 @@ typedef char int8_t;
 typedef unsigned int uint16_t;
 typedef int int16_t;
 
-// SYSCLK frequency in Hz
-#define SYSCLK (48000000)
-#define BAUDRATE0 (115200)
-
 // System header
 #include "system.h"
 
@@ -79,6 +75,9 @@ typedef int int16_t;
 
 // Port header
 #include "port.h"
+
+#include "bsp.h"
+#include "uart.h"
 
 //------------------------------------------------------------------
 // System fault codes
@@ -97,13 +96,6 @@ typedef int int16_t;
 
 #define RETURN_NORMAL 0
 #define RETURN_FAULT 1
-
-void sysclk_init(void);
-void port_init(void);
-void uart0_init(void);
-
-void Puts(char *ptr);
-void putc(char c);
 
 #endif
 
