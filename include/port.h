@@ -64,7 +64,9 @@ SBIT(HEARTBEAT_LED_PIN, SFR_P0, 0);
 
 SBIT(LED_R, SFR_P0, 0);                  
 SBIT(LED_G, SFR_P0, 1);                  
- 
+
+SBIT(KEY_MODE, SFR_P3, 0);
+
 #endif
 
 /*--------------------------------------------------------------------*-

@@ -58,6 +58,7 @@
 // Task headers
 #include "heartbeat.h"
 #include "watchdog.h"
+#include "key.h"
 
 // ------ Public variable definitions ------------------------------
 
@@ -163,6 +164,8 @@ void SYSTEM_Configure_Required_Mode(void)
             // Prepare for heartbeat task
             HEARTBEAT_Init();
 
+            key_init();
+
             // Add tasks to schedule.
             // Parameters are:
             // 1. Task name
@@ -176,6 +179,9 @@ void SYSTEM_Configure_Required_Mode(void)
 
             // Add heartbeat task
             SCH_Add_Task(HEARTBEAT_Update, 0, 1000, 20, 0);
+
+            // Add key task
+            SCH_Add_Task(key_update, 10, 10, 20, 0);
 
             // Feed the watchdog
             WATCHDOG_Update();

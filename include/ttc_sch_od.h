@@ -61,30 +61,30 @@
 
 // User-define type to store required data for each task
 typedef struct 
-   {
-   // Pointer to the task (must be a 'void (void)' function)
-   void (*pTask) (void);  
+{
+    // Pointer to the task (must be a 'void (void)' function)
+    void (*pTask) (void);  
 
-   // Delay (ticks) until the task will (next) be run
-   // - see SCH_Add_Task() for further details
-   uint16_t Delay;       
+    // Delay (ticks) until the task will (next) be run
+    // - see SCH_Add_Task() for further details
+    uint16_t Delay;       
 
-   // Interval (ticks) between subsequent runs.
-   // - see SCH_Add_Task() for further details
-   uint16_t Period;
+    // Interval (ticks) between subsequent runs.
+    // - see SCH_Add_Task() for further details
+    uint16_t Period;
 
-   // Worst-case execution time (microseconds)
-   uint16_t WCET;
+    // Worst-case execution time (microseconds)
+    uint16_t WCET;
 
-   // Best-case execution time (microseconds)
-   uint16_t BCET;
-   } sTask; 
+    // Best-case execution time (microseconds)
+    uint16_t BCET;
+} sTask; 
 
 // ------ Public function prototypes -------------------------------
 
-void     SCH_Init(void);    
-void     SCH_Start(void);
-void     SCH_Dispatch_Tasks(void);
+void SCH_Init(void);    
+void SCH_Start(void);
+void SCH_Dispatch_Tasks(void);
 
 uint16_t SCH_Add_Task(void (* pTask)(),
                       const uint16_t DELAY,  // Offset (in Ticks)
@@ -99,7 +99,7 @@ uint16_t SCH_Add_Task(void (* pTask)(),
 // during the execution of the program
 //
 // MUST BE CHECKED FOR EACH PROJECT (*not* dynamic)
-#define SCH_MAX_TASKS (2)
+#define SCH_MAX_TASKS (3)
  
 #endif
 
