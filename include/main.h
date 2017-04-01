@@ -60,6 +60,7 @@
 // Links to target libraries
 #include <compiler_defs.h>             // Compiler declarations
 #include <C8051F380_defs.h>            // SFR declarations
+#include "typedefs.h"
 
 // Standard types
 typedef unsigned char uint8_t;
@@ -78,6 +79,7 @@ typedef int int16_t;
 
 #include "bsp.h"
 #include "uart.h"
+#include "tw884x.h"
 
 //------------------------------------------------------------------
 // System fault codes

@@ -150,6 +150,7 @@ void SYSTEM_Configure_Required_Mode(void)
             sysclk_init();
             port_init();
             uart0_init();
+            tw884x_init();
 
             // Set up WDT 
             // Set to overflow after ~12ms

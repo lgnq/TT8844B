@@ -430,6 +430,11 @@
               <FileType>1</FileType>
               <FilePath>.\bsp\bsp.c</FilePath>
             </File>
+            <File>
+              <FileName>tw884x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\tw884x.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

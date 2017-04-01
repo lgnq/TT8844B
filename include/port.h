@@ -65,6 +65,8 @@ SBIT(HEARTBEAT_LED_PIN, SFR_P0, 0);
 SBIT(LED_R, SFR_P0, 0);                  
 SBIT(LED_G, SFR_P0, 1);                  
 
+#define TW_HWRESET	P2_0
+
 #endif
 
 /*--------------------------------------------------------------------*-
