@@ -3,9 +3,17 @@
 
 #include "main.h"
 
-SBIT(KEY_MODE, SFR_P3, 0);
+SBIT(MODE_KEY, SFR_P3, 0);
 
-#define KEY_INPUT   KEY_MODE
+#define KEY_INPUT   (MODE_KEY)
+//#define KEY_INPUT   (~P3 & 0x3F)
+
+#define KEY_MODE	    0x01
+#define KEY_ENTERKEY	0x02
+#define KEY_UPKEY		0x04
+#define KEY_DOWNKEY	    0x08
+#define KEY_LEFTKEY	    0x10
+#define KEY_RIGHTKEY	0x20
 
 #define N_KEY       0
 #define S_KEY       1

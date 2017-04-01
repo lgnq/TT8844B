@@ -10,8 +10,10 @@ unsigned char key_read(void)
     switch (key_state) 
     { 
         case KEY_STATE_0: 
-            if (!key_press) 
+            if (!key_press)
+            {
                 key_state = KEY_STATE_1;
+            }
         break; 
         
         case KEY_STATE_1:               
@@ -30,17 +32,26 @@ unsigned char key_read(void)
                 key_return = S_KEY;     
                 key_state = KEY_STATE_0;
             } 
-            else if (++key_time >= 100) 
-            { 
-                key_return = L_KEY;     
-                key_state = KEY_STATE_3;
-            } 
+            else
+            {
+                key_time++;
+                
+                if (key_time >= 100) 
+                { 
+                    key_return = L_KEY;     
+                    key_state = KEY_STATE_3;
+                }
+            }
         break; 
 
         case KEY_STATE_3:               
             if (key_press) 
                 key_state = KEY_STATE_0;
         break; 
+
+        default:
+            key_state = KEY_STATE_0;
+        break;
     } 
 
     return key_return; 
