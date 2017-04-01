@@ -63,7 +63,7 @@ void RS_tx(unsigned char tx_buf)
     RS_Xbusy = 1;
 }
 
-void Puts(char *ptr)
+void puts(char *ptr)
 {
     while (*ptr!='\0')
         RS_tx(*ptr++);

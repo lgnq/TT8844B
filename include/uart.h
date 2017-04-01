@@ -5,7 +5,7 @@
 
 void uart0_init(void);
 
-void Puts(char *ptr);
+void puts(char *ptr);
 void putc(char c);
 
 #endif
