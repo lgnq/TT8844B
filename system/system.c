@@ -96,11 +96,8 @@ void SYSTEM_Identify_Required_Mode(void)
 {
     uint8_t WDT_flag = 0;  // Set to 1 if WDT caused latest reset
    
-    // Disable the watchdog timer
-    //WDTCN = 0xDE;
-    //WDTCN = 0xAD;
-       
-    PCA0MD &= ~0x40;						// Disable Watchdog timer, WDTE = 0
+    // Disable Watchdog timer, WDTE = 0
+    PCA0MD &= ~0x40;						
    
     // Check cause of reset
     // First check the PORSF bit:
@@ -178,7 +175,7 @@ void SYSTEM_Configure_Required_Mode(void)
             SCH_Add_Task(WATCHDOG_Update, 0, 1, 10, 0);
 
             // Add heartbeat task
-            SCH_Add_Task(HEARTBEAT_Update, 0, 1000, 20, 0);
+            SCH_Add_Task(HEARTBEAT_Update2, 0, 1000, 20, 0);
 
             // Add key task
             SCH_Add_Task(key_update, 10, 10, 20, 0);
