@@ -1,6 +1,6 @@
 #include "i2c.h"
 
-void delay_us(unsigned char i)
+void delay(unsigned char i)
 {
     unsigned char n;
     
@@ -8,179 +8,166 @@ void delay_us(unsigned char i)
         ;
 }
 
- /*  ????I2C?start????,??restart??????
-*********************************************************************************************************
- * function    : bsp_SimuI2C_start
- * Description : generate a i2c start or restart
- * Argument(s) : point to struct SimuI2cPortType
- * Return(s)   : none
- *********************************************************************************************************
- */
- void bsp_SimuI2C_start(void)
- {       
-         //here may be a stop
-         SIMUI2C_SCL_SET;
-         delay_us(1);//SCL setup time for STOP condition, 0.6uS
-         SIMUI2C_SDA_SET;
-         delay_us(2);//the bus must be free before a new transmission can start, 1.2uS
-         
-         //start
-         SIMUI2C_SDA_CLR;
-         delay_us(1);//SCL hold time for START condition, 0.6uS
-         SIMUI2C_SCL_CLR;
-         delay_us(1);//SCL low period * 0.5 = 0.65uS
- }
-
- /*  ????I2C?stop????
-*********************************************************************************************************
- * function    : bsp_SimuI2C_stop
- * Description : generate a i2c stop
- * Argument(s) : point to struct SimuI2cPortType
- * Return(s)   : none
- *********************************************************************************************************
- */
- void bsp_SimuI2C_stop(void)
- {
-         
-         //set SCL and SDA low first
-         SIMUI2C_SCL_CLR;
-         delay_us(1);//SCL low period * 0.5 = 0.65uS
-         SIMUI2C_SDA_CLR;
-         delay_us(1);//SCL low period * 0.5 = 0.65uS
-         
-         //stop
-         SIMUI2C_SCL_SET;
-         delay_us(1);//SCL setup time for STOP condition
-         SIMUI2C_SDA_SET;
-         delay_us(2);//Time the bus must be free before a new transmission can start, 1.2uS
- }
-
-
- /*  ????????ack????
-*********************************************************************************************************
- * function    : bsp_SimuI2C_SandAck
- * Description : generate a i2c ack to slave
- * Argument(s) : point to struct SimuI2cPortType
- * Return(s)   : none
- *********************************************************************************************************
- */
- void bsp_SimuI2C_SandAck(void)
- {
-         
-         //set sda=0
-         //delay_us(1);//SCL low period * 0.5 = 0.65uS
-         SIMUI2C_SDA_CLR;//SDA=0
-         delay_us(1);//SCL low period * 0.5 = 0.65uS
-         
-         //scl pulse
-         SIMUI2C_SCL_SET;
-         delay_us(1);//SCL high period, 0.6uS
-         SIMUI2C_SCL_CLR;
-         delay_us(1);//SCL low period * 0.5 = 0.65uS
- }
-
-
-/*   ????????no ack?????
-*********************************************************************************************************
-* function    : bsp_SimuI2C_SandNack
-* Description : generate a i2c noack to slave
-* Argument(s) : point to struct SimuI2cPortType
-* Return(s)   : none
-*********************************************************************************************************
-*/
-void bsp_SimuI2C_SandNack(void)
+void set_gpio_direction(unsigned char pin, unsigned char dir)
 {
-        
-        //set sda=1
-        //delay_us(1);//SCL low period * 0.5 = 0.65uS
-        SIMUI2C_SDA_SET;//SDA=1
-        delay_us(1);//SCL low period * 0.5 = 0.65uS
-        
-        //scl pulse
-        SIMUI2C_SCL_SET;
-        delay_us(1);//SCL high period, 0.6uS
-        SIMUI2C_SCL_CLR;
-        delay_us(1);//SCL low period * 0.5 = 0.65uS
 }
 
-/*   ??????ack??????, 0????, 1?????
-*********************************************************************************************************
-* function    : bsp_SimuI2C_ReadAck
-* Description : check i2c ack from slave
-* Argument(s) : point to struct SimuI2cPortType
-* Return(s)   : 0: ack, 1: nack
-*********************************************************************************************************
-*/
-unsigned char bsp_SimuI2C_ReadAck(void)
+void set_gpio_value(unsigned char pin, unsigned char val)
 {
-        unsigned char ack;
-        
-        delay_us(1);//SCL low period * 0.5 = 0.65uS
-        SIMUI2C_SCL_SET;
-        delay_us(1);//SCL high period, 0.6uS
-        ack = SIMUI2C_SDA_IN;
-        SIMUI2C_SCL_CLR;
-        delay_us(1);//SCL low period * 0.5 = 0.65uS
-        
-        return ack;
+    if (pin == SDA)
+        P1_4 = val;
+    else if (pin == SCL)
+        P1_5 = val;
 }
 
-/*   ???????,????8bit??
-*********************************************************************************************************
-* function    : bsp_SimuI2C_read_byte
-* Description : read a byte from i2c slave
-* Argument(s) : point to struct SimuI2cPortType
-* Return(s)   : the read data
-*********************************************************************************************************
-*/
-unsigned char bsp_SimuI2C_read_byte(void)
+unsigned char get_gpio_value(unsigned char pin)
 {
-        unsigned char i;
-        unsigned char  dat;
-        
-        dat = 0;
-        for(i=0; i<8; i++) {
-                delay_us(1);//SCL low period * 0.5 = 0.65uS
-                SIMUI2C_SCL_SET;
-                delay_us(1);//SCL high period, 0.6uS
-                //read data in
-                dat<<=1;
-                if (1 == SIMUI2C_SDA_IN)
-                    dat |= 0x01;
-                SIMUI2C_SCL_CLR;
-                delay_us(1);//SCL low period * 0.5 = 0.65uS
-        }
+    unsigned char val;
 
-        return dat;
+    if (pin == SDA)
+        val = P1_4;
+
+    return val;
 }
 
-/*  ???8bit??????
-*********************************************************************************************************
-* function    : bsp_SimuI2C_write_byte
-* Description : write a byte to i2c slave
-* Argument(s) : pSimuI2cPort: point to struct SimuI2cPortType, data: data to write
-* Return(s)   : none
-*********************************************************************************************************
-*/
-void bsp_SimuI2C_write_byte(unsigned char dat)
-{
-        unsigned char i;
-        
-        for(i=0; i<8; i++) {
-                delay_us(1);//SCL low period * 0.5 = 0.65uS
-                //sda bit output
-                if(dat & 0x80)
-                        SIMUI2C_SDA_SET;
-                else
-                        SIMUI2C_SDA_CLR;
-                delay_us(1);//SCL low period * 0.5 = 0.65uS
-                //scl pulse
-                SIMUI2C_SCL_SET;                
-                delay_us(1);//SCL high period, 0.6uS
-                SIMUI2C_SCL_CLR;
-                //next bit
-                dat <<= 1;
-        }
-        delay_us(1);//SCL low period * 0.5 = 0.65uS
+/* I2C起始条件 */  
+int i2c_start()  
+{  
+    //初始化GPIO口  
+    set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
+    set_gpio_direction(SCL, OUTP);         //设置SCL方向为输出  
+    set_gpio_value(SDA, 1);                //设置SDA为高电平  
+    set_gpio_value(SCL, 1);                 //设置SCL为高电平  
+    delay();                            //延时  
+    
+    //起始条件  
+    set_gpio_value(SDA, 0);                 //SCL为高电平时，SDA由高变低  
+    delay();  
+}  
+
+/* I2C终止条件 */  
+void i2c_stop()  
+{  
+    set_gpio_value(SCL, 1);  
+    set_gpio_direction(SDA, OUTP);  
+    set_gpio_value(SDA, 0);  
+    delay();  
+    set_gpio_value(SDA, 1);             //SCL高电平时，SDA由低变高  
+}  
+
+/*   
+I2C读取ACK信号(写数据时使用)  
+返回值 ：0表示ACK信号有效；非0表示ACK信号无效  
+*/  
+unsigned char i2c_read_ack()  
+{  
+    unsigned char r;  
+    set_gpio_direction(SDA, INP);           //设置SDA方向为输入  
+    set_gpio_value(SCL,0);              // SCL变低  
+    r = get_gpio_value(SDA);                //读取ACK信号  
+    delay();  
+    set_gpio_value(SCL,1);              // SCL变高  
+    delay();  
+    
+    return r;  
+}  
+
+/* I2C发出ACK信号(读数据时使用) */  
+int i2c_send_ack()  
+{  
+    set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
+    set_gpio_value(SCL,0);              // SCL变低  
+    set_gpio_value(SDA, 0);             //发出ACK信号  
+    delay();  
+    set_gpio_value(SCL,1);              // SCL变高  
+    delay();  
+}  
+
+/* I2C字节写 */  
+void i2c_write_byte(unsigned char b)  
+{  
+    int i;  
+
+    set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
+    for (i=7; i>=0; i--) 
+    {  
+        set_gpio_value(SCL, 0);             // SCL变低  
+        delay();  
+        set_gpio_value(SDA, b & (1<<i));        //从高位到低位依次准备数据进行发送  
+        set_gpio_value(SCL, 1);             // SCL变高  
+        delay();  
+    }  
+
+    i2c_read_ack();                 //检查目标设备的ACK信号  
 }
+  
+/* I2C字节读 */  
+unsigned char i2c_read_byte()  
+{  
+    int i;  
+    unsigned char r = 0;  
+
+    set_gpio_direction(SDA, INP);           //设置SDA方向为输入  
+    for (i=7; i>=0; i--) 
+    {  
+        set_gpio_value(SCL, 0);         // SCL变低  
+        delay();  
+        r = (r <<1) | get_gpio_value(SDA);      //从高位到低位依次准备数据进行读取  
+        set_gpio_value(SCL, 1);         // SCL变高  
+        delay();  
+    }  
+    
+    i2c_send_ack();                 //向目标设备发送ACK信号  
+
+    return r;  
+}  
+
+/*  
+I2C读操作  
+addr：目标设备地址  
+buf：读缓冲区  
+len：读入字节的长度  
+*/  
+void i2c_read(unsigned char addr, unsigned char* buf, int len)  
+{  
+    int i;  
+    unsigned char t;  
+
+    i2c_start();                        //起始条件，开始数据通信  
+
+    //发送地址和数据读写方向  
+    t = (addr << 1) | 1;                    //低位为1，表示读数据  
+    i2c_write_byte(t);  
+    
+    //读入数据  
+    for (i=0; i<len; i++)  
+        buf[i] = i2c_read_byte();  
+    
+    i2c_stop();                     //终止条件，结束数据通信  
+}
+  
+/*  
+I2C写操作  
+addr：目标设备地址  
+buf：写缓冲区  
+len：写入字节的长度  
+*/  
+void i2c_write(unsigned char addr, unsigned char* buf, int len)  
+{  
+    int i;  
+    unsigned char t;  
+
+    i2c_start();                        //起始条件，开始数据通信  
+
+    //发送地址和数据读写方向  
+    t = (addr << 1) | 0;                    //低位为0，表示写数据  
+    i2c_write_byte(t);  
+    
+    //写入数据  
+    for (i=0; i<len; i++)  
+        i2c_write_byte(buf[i]);  
+
+    i2c_stop();                     //终止条件，结束数据通信  
+}  
+
 

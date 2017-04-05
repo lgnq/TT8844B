@@ -3,24 +3,14 @@
 
 #include "main.h"
 
-//??I2C?SCL?SDA???????
-//SCL output hardware operate
- #define SIMUI2C_SCL_SET                P1_5 = 1
- #define SIMUI2C_SCL_CLR                P1_5 = 0
- //SDA output hardware operate
- #define SIMUI2C_SDA_SET                P1_4 = 1
- #define SIMUI2C_SDA_CLR                P1_4 = 0
- //SDA input hardware operate
- #define SIMUI2C_SDA_IN                 P1_4                   
+#define SDA 254                         //定义SDA所对应的GPIO接口编号  
+#define SCL 255                         //定义SCL所对应的GPIO接口编号  
 
+#define INP  0                          //表示GPIO接口方向为输入  
+#define OUTP 1                          //表示GPIO接口方向为输出  
 
-//simulate i2c APIs
-void bsp_SimuI2C_start(void);
-void bsp_SimuI2C_stop(void);
-void bsp_SimuI2C_SandAck(void);
-void bsp_SimuI2C_SandNack(void);
-unsigned char bsp_SimuI2C_ReadAck(void);
-unsigned char bsp_SimuI2C_read_byte(void);
-void bsp_SimuI2C_write_byte(unsigned char dat);
+void i2c_read(unsigned char addr, unsigned char *buf, int len);  
+void i2c_write(unsigned char addr, unsigned char *buf, int len);  
 
 #endif
+
