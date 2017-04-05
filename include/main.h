@@ -78,6 +78,7 @@ typedef int int16_t;
 #include "port.h"
 
 #include "bsp.h"
+#include "i2c.h"
 #include "uart.h"
 #include "tw884x.h"
 
