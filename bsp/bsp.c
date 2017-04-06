@@ -48,7 +48,7 @@ void port_init(void)
     P3SKIP = 0xFF;                      // GPIOs
 
     XBR0 = 0x01;                        // .... ...(UART0)
-    XBR1 = 0x40;                        // disable weak pull-up, XBAR enable, important always!!!
+    XBR1 = 0xC0;                        // disable weak pull-up, XBAR enable, important always!!!
     XBR2 = 0x00;                        // 
 
     EX0 = 0;        // INT0 disable
@@ -60,3 +60,4 @@ void port_init(void)
     LED_R = 1;
     LED_G = 1;
 }
+

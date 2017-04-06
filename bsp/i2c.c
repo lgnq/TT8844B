@@ -98,7 +98,7 @@ void i2c_send_ack(void)
 {  
     set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
     set_gpio_value(SCL, 0);              // SCL变低  
-    set_gpio_value(SDA, 0);             //发出ACK信号  
+    set_gpio_value(SDA, 1);             //发出ACK信号  
     delay_us();  
     set_gpio_value(SCL, 1);              // SCL变高  
     delay_us();  
@@ -107,14 +107,17 @@ void i2c_send_ack(void)
 /* I2C字节写 */  
 void i2c_write_byte(unsigned char b)  
 {  
-    int i;  
+    char i;  
 
     set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
-    for (i=7; i>=0; i--) 
+    
+    for (i = 7; i >= 0; i--) 
     {  
         set_gpio_value(SCL, 0);             // SCL变低  
         delay_us();  
+        
         set_gpio_value(SDA, b & (1<<i));        //从高位到低位依次准备数据进行发送  
+
         set_gpio_value(SCL, 1);             // SCL变高  
         delay_us();  
     }  
@@ -125,15 +128,18 @@ void i2c_write_byte(unsigned char b)
 /* I2C字节读 */  
 unsigned char i2c_read_byte(void)  
 {  
-    int i;  
+    char i;  
     unsigned char r = 0;  
 
     set_gpio_direction(SDA, INP);           //设置SDA方向为输入  
-    for (i=7; i>=0; i--) 
+    
+    for (i = 7; i >= 0; i--) 
     {  
         set_gpio_value(SCL, 0);         // SCL变低  
         delay_us();  
-        r = (r <<1) | get_gpio_value(SDA);      //从高位到低位依次准备数据进行读取  
+        
+        r = (r << 1) | get_gpio_value(SDA);      //从高位到低位依次准备数据进行读取  
+
         set_gpio_value(SCL, 1);         // SCL变高  
         delay_us();  
     }  

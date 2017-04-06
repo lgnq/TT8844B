@@ -13,12 +13,12 @@ unsigned char key_read(void)
 
     if (key_value == 0)
     {
-        LED_G = 0;
+        //LED_G = 0;
         key_press = 0;
     }
     else
     {
-        LED_G = 1;
+        //LED_G = 1;
         key_press = 1;
     }
     
