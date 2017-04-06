@@ -72,7 +72,18 @@ void tw884x_reset(void)
     {
         ;
     }
-    
+    for (i = 0; i < 0xFFFF; i++)
+    {
+        ;
+    }
+    for (i = 0; i < 0xFFFF; i++)
+    {
+        ;
+    }
+    for (i = 0; i < 0xFFFF; i++)
+    {
+        ;
+    }    
     LED_R = 0;
     LED_G = 0;
     TW_HWRESET = 0;					//Reset for Devices    
@@ -89,5 +100,5 @@ void tw884x_init(void)
     {
         ;
     }    
-    id = tw884x_read(0x1);
+    id = tw884x_read(0x0);
 }

@@ -4,7 +4,7 @@ void delay_us(void)
 {
     unsigned char n;
     
-    for (n = 0; n < 100; n++)
+    for (n = 0; n < 50; n++)
         ;
 }
 
