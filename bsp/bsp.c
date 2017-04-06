@@ -1,10 +1,10 @@
 #include "main.h"
 
-void Delay(void)
+void delay(void)
 {
     int x;
     
-    for (x = 0;x < 500;x)
+    for (x = 0; x < 500; x)
         x++;
 }
 
@@ -18,9 +18,9 @@ void sysclk_init(void)
                                    // input to clock multiplier
 
     CLKMUL |= 0x80;                     // Enable clock multiplier
-    Delay();                            // Delay for clock multiplier to begin
+    delay();                            // Delay for clock multiplier to begin
     CLKMUL |= 0xC0;                     // Initialize the clock multiplier
-    Delay();                            // Delay for clock multiplier to begin
+    delay();                            // Delay for clock multiplier to begin
 
     while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
     CLKSEL  = 0x03;                     // Select system clock from internal High-Frequency Osc = 48MHz
@@ -48,7 +48,7 @@ void port_init(void)
     P3SKIP = 0xFF;                      // GPIOs
 
     XBR0 = 0x01;                        // .... ...(UART0)
-    XBR1 = 0xC0;                        // disable weak pull-up, XBAR enable, important always!!!
+    XBR1 = 0x40;                        // disable weak pull-up, XBAR enable, important always!!!
     XBR2 = 0x00;                        // 
 
     EX0 = 0;        // INT0 disable

@@ -54,6 +54,7 @@ void uart0_isr(void) interrupt INTERRUPT_UART0
     }
 }
 
+#if 0
 void RS_tx(unsigned char tx_buf)
 {
     while (RS_Xbusy)
@@ -68,6 +69,7 @@ void puts(char *ptr)
     while (*ptr!='\0')
         RS_tx(*ptr++);
 }
+#endif
 
 void putc(char c)
 {

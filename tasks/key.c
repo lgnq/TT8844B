@@ -1,5 +1,9 @@
 #include "key.h"
 
+void key_init(void)
+{
+}
+
 unsigned char key_read(void) 
 { 
     static unsigned char key_state = KEY_STATE_0, key_time = 0, key_temp = N_KEY; 
@@ -70,10 +74,6 @@ unsigned char key_read(void)
     } 
 
     return key_return; 
-}
-
-void key_init(void)
-{
 }
 
 void key_update(void)

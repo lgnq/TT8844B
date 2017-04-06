@@ -1,15 +1,31 @@
 #include "i2c.h"
 
-void delay(unsigned char i)
+void delay_us(void)
 {
     unsigned char n;
     
-    for (n = 0; n < i; n++)
+    for (n = 0; n < 100; n++)
         ;
 }
 
 void set_gpio_direction(unsigned char pin, unsigned char dir)
 {
+#if 0    
+    if (pin == SDA)
+    {
+        if (dir == OUTP)
+            P1MDOUT |= 0x10;
+        else if (dir == INP)
+            P1MDOUT &= ~0x10;
+    }
+    else if (pin == SCL)
+    {
+        if (dir == OUTP)
+            P1MDOUT |= 0x20;
+        else if (dir == INP)
+            P1MDOUT &= ~0x20;
+    }
+#endif    
 }
 
 void set_gpio_value(unsigned char pin, unsigned char val)
@@ -31,27 +47,30 @@ unsigned char get_gpio_value(unsigned char pin)
 }
 
 /* I2C起始条件 */  
-int i2c_start()  
+void i2c_start(void)  
 {  
     //初始化GPIO口  
     set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
     set_gpio_direction(SCL, OUTP);         //设置SCL方向为输出  
     set_gpio_value(SDA, 1);                //设置SDA为高电平  
     set_gpio_value(SCL, 1);                 //设置SCL为高电平  
-    delay();                            //延时  
+    delay_us();                            //延时  
     
     //起始条件  
     set_gpio_value(SDA, 0);                 //SCL为高电平时，SDA由高变低  
-    delay();  
+    delay_us();  
 }  
 
 /* I2C终止条件 */  
-void i2c_stop()  
+void i2c_stop(void)  
 {  
+    set_gpio_value(SCL, 0);  
+    delay_us();    
+    
     set_gpio_value(SCL, 1);  
     set_gpio_direction(SDA, OUTP);  
     set_gpio_value(SDA, 0);  
-    delay();  
+    delay_us();  
     set_gpio_value(SDA, 1);             //SCL高电平时，SDA由低变高  
 }  
 
@@ -59,28 +78,30 @@ void i2c_stop()
 I2C读取ACK信号(写数据时使用)  
 返回值 ：0表示ACK信号有效；非0表示ACK信号无效  
 */  
-unsigned char i2c_read_ack()  
+unsigned char i2c_read_ack(void)  
 {  
     unsigned char r;  
+    
     set_gpio_direction(SDA, INP);           //设置SDA方向为输入  
-    set_gpio_value(SCL,0);              // SCL变低  
+    
+    set_gpio_value(SCL, 0);              // SCL变低  
     r = get_gpio_value(SDA);                //读取ACK信号  
-    delay();  
-    set_gpio_value(SCL,1);              // SCL变高  
-    delay();  
+    delay_us();  
+    set_gpio_value(SCL, 1);              // SCL变高  
+    delay_us();  
     
     return r;  
 }  
 
 /* I2C发出ACK信号(读数据时使用) */  
-int i2c_send_ack()  
+void i2c_send_ack(void)  
 {  
     set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
-    set_gpio_value(SCL,0);              // SCL变低  
+    set_gpio_value(SCL, 0);              // SCL变低  
     set_gpio_value(SDA, 0);             //发出ACK信号  
-    delay();  
-    set_gpio_value(SCL,1);              // SCL变高  
-    delay();  
+    delay_us();  
+    set_gpio_value(SCL, 1);              // SCL变高  
+    delay_us();  
 }  
 
 /* I2C字节写 */  
@@ -92,17 +113,17 @@ void i2c_write_byte(unsigned char b)
     for (i=7; i>=0; i--) 
     {  
         set_gpio_value(SCL, 0);             // SCL变低  
-        delay();  
+        delay_us();  
         set_gpio_value(SDA, b & (1<<i));        //从高位到低位依次准备数据进行发送  
         set_gpio_value(SCL, 1);             // SCL变高  
-        delay();  
+        delay_us();  
     }  
 
     i2c_read_ack();                 //检查目标设备的ACK信号  
 }
   
 /* I2C字节读 */  
-unsigned char i2c_read_byte()  
+unsigned char i2c_read_byte(void)  
 {  
     int i;  
     unsigned char r = 0;  
@@ -111,10 +132,10 @@ unsigned char i2c_read_byte()
     for (i=7; i>=0; i--) 
     {  
         set_gpio_value(SCL, 0);         // SCL变低  
-        delay();  
+        delay_us();  
         r = (r <<1) | get_gpio_value(SDA);      //从高位到低位依次准备数据进行读取  
         set_gpio_value(SCL, 1);         // SCL变高  
-        delay();  
+        delay_us();  
     }  
     
     i2c_send_ack();                 //向目标设备发送ACK信号  
@@ -122,6 +143,7 @@ unsigned char i2c_read_byte()
     return r;  
 }  
 
+#if 0
 /*  
 I2C读操作  
 addr：目标设备地址  
@@ -169,5 +191,5 @@ void i2c_write(unsigned char addr, unsigned char* buf, int len)
 
     i2c_stop();                     //终止条件，结束数据通信  
 }  
-
+#endif
 
