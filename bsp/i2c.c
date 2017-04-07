@@ -1,10 +1,16 @@
 #include "i2c.h"
 
+/*
+n = 50 64KHz
+n = 10 172KHz
+n = 5  240KHz
+n = 1  300KHz
+*/
 void delay_us(void)
 {
     unsigned char n;
     
-    for (n = 0; n < 50; n++)
+    for (n = 0; n < 1; n++)
         ;
 }
 
@@ -52,8 +58,27 @@ void i2c_start(void)
     //初始化GPIO口  
     set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
     set_gpio_direction(SCL, OUTP);         //设置SCL方向为输出  
+    
     set_gpio_value(SDA, 1);                //设置SDA为高电平  
     set_gpio_value(SCL, 1);                 //设置SCL为高电平  
+    delay_us();                            //延时  
+    
+    //起始条件  
+    set_gpio_value(SDA, 0);                 //SCL为高电平时，SDA由高变低  
+    delay_us();  
+}  
+
+void i2c_restart(void)  
+{  
+    //初始化GPIO口  
+    set_gpio_direction(SDA, OUTP);          //设置SDA方向为输出  
+    set_gpio_direction(SCL, OUTP);         //设置SCL方向为输出  
+    
+    set_gpio_value(SCL, 0);
+    delay_us();
+    
+    set_gpio_value(SCL, 1);                 //设置SCL为高电平  
+    set_gpio_value(SDA, 1);                //设置SDA为高电平      
     delay_us();                            //延时  
     
     //起始条件  

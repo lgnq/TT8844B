@@ -30,7 +30,7 @@ unsigned char tw884x_read(unsigned char idx)
     //写入索引  
     i2c_write_byte(idx);  
 
-    i2c_start();                        //起始条件，开始数据通信  
+    i2c_restart();                        //起始条件，开始数据通信  
 
     //发送地址和数据读写方向  
     //低位为1，表示读数据  
@@ -102,8 +102,8 @@ void tw884x_init(void)
 {
     unsigned char id;
     
-    tw884x_reset();   
-        
+    tw884x_reset();
+         
     tw884x_write(0xFF, 0x0);
     id = tw884x_read(0x0);
     
@@ -113,6 +113,6 @@ void tw884x_init(void)
         LED_G = 0;
     /*
     else
-        LED_G = 1;*/
+        LED_G = 1;*/   
 }
 

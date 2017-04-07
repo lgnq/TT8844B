@@ -10,6 +10,7 @@
 #define OUTP 1                          //表示GPIO接口方向为输出  
 
 void i2c_start(void);
+void i2c_restart(void);
 void i2c_stop(void);
 void i2c_write_byte(unsigned char b);
 unsigned char i2c_read_byte(void);
