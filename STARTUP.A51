@@ -110,6 +110,8 @@ SP      DATA    81H
 DPL     DATA    82H
 DPH     DATA    83H
 
+PCA0MD	DATA		0D9H
+
                 NAME    ?C_STARTUP
 
 
@@ -128,6 +130,7 @@ DPH     DATA    83H
                 RSEG    ?C_C51STARTUP
 
 STARTUP1:
+		            ANL     PCA0MD,#0BFH
 
 IF IDATALEN <> 0
                 MOV     R0,#IDATALEN - 1
