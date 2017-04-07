@@ -84,14 +84,6 @@ void tw884x_reset(void)
     {
         ;
     }  
-    for (i = 0; i < 0xFFFF; i++)
-    {
-        ;
-    }
-    for (i = 0; i < 0xFFFF; i++)
-    {
-        ;
-    }  
     
     LED_R = 0;
     LED_G = 0;
@@ -108,11 +100,12 @@ void tw884x_init(void)
     id = tw884x_read(0x0);
     
     if (id == 0x44)
+    {
         LED_G = 1;
-    else if (id == 0xFF)
-        LED_G = 0;
-    /*
+    }
     else
-        LED_G = 1;*/   
+    {
+        LED_G = 0;
+    }
 }
 
