@@ -9,6 +9,8 @@
 
 #define TW884X_ADDR     (0x88 >> 1)
 
+void i2c_write(unsigned char addr, unsigned char idx, unsigned int val);
+
 unsigned char tw884x_read(unsigned char idx);
 void tw884x_write(unsigned char idx, unsigned char val);
 void tw884x_writen(unsigned char idx, unsigned char *val, unsigned char n);

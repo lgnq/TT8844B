@@ -16,6 +16,9 @@ void fosd_win_screen(unsigned char winno, unsigned int x, unsigned int y, unsign
 void fosd_win_style(unsigned char winno, unsigned char bdOn, unsigned char bdColor, unsigned char bdWidth, unsigned char bdSpaceH, unsigned char bdSpaceV, unsigned char chSpaceH, unsigned char chSpaceV);
 void fosd_win_ram_start(unsigned char winno, unsigned int start);
 void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_loc, unsigned int fSize, unsigned char width, unsigned char height);
+void fosd_clear_display(unsigned int pos, unsigned char attr, unsigned int cnt);
+void fosd_display_string(unsigned int pos, unsigned char *str, unsigned char attr);
+void fosd_set_de(void);
 
 #endif
 

@@ -167,7 +167,7 @@ void fosd_win_screen(unsigned char winno, unsigned int x, unsigned int y, unsign
 	tmp = x >> 8;
 	tmp <<= 4;
 	tmp += (y >> 8);
-	tw884x_write(idx+2,  tmp);			// upper bit for position x, y
+	tw884x_write(idx+2, tmp);			// upper bit for position x, y
 	tw884x_write(idx+3, x);				// position x
 	tw884x_write(idx+4, y);				// position y
 	tw884x_write(idx+5, h);
@@ -281,7 +281,7 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
 	tw884x_write(0x01, (tw884x_read(0x01) & ~0x04));		// FONT RAM access mode OFF
 }
 
-#if 0
+#if 1
 //=============================================================================
 //				   void FOSDDefaultLUT( unsigned char n ) // dump every Color LUTs
 //=============================================================================
@@ -407,7 +407,7 @@ void fosd_display_string(unsigned int pos, unsigned char *str, unsigned char att
 
 	while (*str)
     {
-///		tw884x_writeW(0x02, pos);		// write upper 2 bits
+		i2c_write(0x88, 0x02, pos);		// write upper 2 bits
 		tw884x_write(0x04, 0x00);			// clear 9th bit
 		tw884x_write(0x05, *str);
 		tw884x_write(0x06, attr);
@@ -436,19 +436,16 @@ void fosd_clear_display(unsigned int pos, unsigned char attr, unsigned int cnt)
 	}
 }
 
-void FOSDSetDE(void)
+void fosd_set_de(void)
 {
-	unsigned char page, tmp;
-
-	page = tw884x_read(0xff);
+	unsigned char tmp;
 
 	tw884x_write(0xff, 0x02);
 	tmp = tw884x_read(0x15);	// read 0x215
 	tmp -= 37;
+    
 	tw884x_write(0xff, 0x03);
 	tw884x_write(0x14, tmp);
-	
-	tw884x_write(0xff, page);
 }
 #endif
 

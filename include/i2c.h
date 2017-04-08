@@ -15,8 +15,8 @@ void i2c_stop(void);
 void i2c_write_byte(unsigned char b);
 unsigned char i2c_read_byte(void);
 
-void i2c_read(unsigned char addr, unsigned char *buf, int len);  
-void i2c_write(unsigned char addr, unsigned char *buf, int len);  
+//void i2c_read(unsigned char addr, unsigned char *buf, int len);  
+//void i2c_write(unsigned char addr, unsigned char *buf, int len);  
 
 #endif
 
