@@ -11,6 +11,7 @@
 
 unsigned char tw884x_read(unsigned char idx);
 void tw884x_write(unsigned char idx, unsigned char val);
+void tw884x_writen(unsigned char idx, unsigned char *val, unsigned char n);
 
 void tw884x_reset(void);
 void tw884x_init(void);

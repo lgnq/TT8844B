@@ -6,6 +6,9 @@
 #define	TRUE	1
 #define	FALSE	0
 
+#define ON      1
+#define OFF     0
+
 sbit	P0_0  =		P0^0;
 sbit	P0_1  =		P0^1;
 sbit	P0_2  =		P0^2;

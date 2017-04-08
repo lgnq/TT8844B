@@ -272,7 +272,7 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
 	{
 		tw884x_write(0x08, i); 		//Font Addr low 8bit
 
-///		tw884x_writen(0x09, &src_loc[i*FontSize], FontSize);
+		tw884x_writen(0x09, &src_loc[i*FontSize], FontSize);
 		FontIndex += FontSize; 
 	}
 	
