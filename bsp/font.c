@@ -154,13 +154,14 @@ void fosd_set_winy(unsigned char winno, unsigned int y)
 
 void fosd_win_screen(unsigned char winno, unsigned int x, unsigned int y, unsigned char w, unsigned char h, unsigned char zoomH, unsigned char zoomV)
 {
-	xdata unsigned char idx, tmp;
+	unsigned char idx;
+	unsigned char tmp;
 
 	idx = FontOsdWinBase[winno];
 
 	tw884x_write(0xff, FONT_OSD_PAGE);
     
-	tmp = zoomH*4 + zoomV;
+	tmp = zoomH * 4 + zoomV;
 	tmp += (tw884x_read(idx) & 0xf0);
 	tw884x_write(idx, tmp);				// write Zoom value
 
@@ -238,6 +239,24 @@ void fosd_lut(unsigned int *PalettePtr, unsigned char StartAddr, unsigned char C
 	}
 }
 
+void auto_increment_control(unsigned char onoff)
+{
+    unsigned char val;
+    
+    tw884x_write(0xFF, 0x0);
+
+    val = tw884x_read(0x06);
+    
+    if (onoff == 1)
+    {
+        val &= ~0x20;
+    }
+    else
+    {
+        val |= 0x20;
+    }
+}
+
 void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_loc, unsigned int fSize, unsigned char width, unsigned char height)
 {
 	unsigned char val;
@@ -256,15 +275,17 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
 	tw884x_write(0x00, val);  
 
 	tw884x_write(0x01, (tw884x_read(0x01) | 0x04)); 						//FontRAM access
-	tw884x_write(0x07, 0); 		//Test only under 256
+    
+	tw884x_write(0x07, 0); 		            //Test only under 256
 	tw884x_write(0x08, dest_font_idx); 		//Font Addr
-	tw884x_write(0x11, height >> 1); 				//Font height(2~32)
+	tw884x_write(0x11, height >> 1); 		//Font height(2~32)
 
 	i = 0;
 	FontSize = (unsigned int) width * height / 8;
 	tw884x_write(0x12, FontSize);	//sub-font total count.
 
 ///	S_SetAINC(0);
+    auto_increment_control(OFF);
 
 	FontIndex = dest_font_idx;
 	FontIndex *= FontSize;
@@ -277,6 +298,7 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
 	}
 	
 ///	S_SetAINC(1);
+    auto_increment_control(ON);
 
 	tw884x_write(0x01, (tw884x_read(0x01) & ~0x04));		// FONT RAM access mode OFF
 }
