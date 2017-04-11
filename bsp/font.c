@@ -247,7 +247,7 @@ void auto_increment_control(unsigned char onoff)
 
     val = tw884x_read(0x06);
     
-    if (onoff == 1)
+    if (onoff == ON)
     {
         val &= ~0x20;
     }
@@ -260,10 +260,12 @@ void auto_increment_control(unsigned char onoff)
 void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_loc, unsigned int fSize, unsigned char width, unsigned char height)
 {
 	unsigned char val;
-	unsigned int i, FontSize, FontIndex;
+	unsigned int i, FontSize, FontIndex, j;
 
 	//save clock mode & select PCLK
 	WaitVBlankVS1(1);	
+
+    auto_increment_control(ON);
 
 	tw884x_write(0xFF, FONT_OSD_PAGE);
 
@@ -284,23 +286,33 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
 	FontSize = (unsigned int) width * height / 8;
 	tw884x_write(0x12, FontSize);	//sub-font total count.
 
-///	S_SetAINC(0);
-    auto_increment_control(OFF);
-
 	FontIndex = dest_font_idx;
 	FontIndex *= FontSize;
 	for (i = 0; i < fSize; i++) 
 	{
+#if 1	
 		tw884x_write(0x08, i); 		//Font Addr low 8bit
+#else
+        tw884x_write( 0x07, (FontIndex>>8) );      //Font Addr high 8bit
+        tw884x_write( 0x08, FontIndex );       //Font Addr low 8bit
+#endif
 
+#if 0
 		tw884x_writen(0x09, &src_loc[i*FontSize], FontSize);
+#else        
+        for (j = 0; j < FontSize; j++)
+        {
+            tw884x_write(0x09, src_loc[i*FontSize + j]);
+            //tw884x_write(0x09, 0xFF);
+        }
+#endif
+
 		FontIndex += FontSize; 
 	}
 	
-///	S_SetAINC(1);
-    auto_increment_control(ON);
-
 	tw884x_write(0x01, (tw884x_read(0x01) & ~0x04));		// FONT RAM access mode OFF
+
+    auto_increment_control(OFF);
 }
 
 #if 1
