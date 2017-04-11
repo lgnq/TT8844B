@@ -5690,13 +5690,13 @@ void tw884x_init(void)
 
         fosd_download_font_direct(0, &ROMFONTDATA[0][0], 161, 12, 18);         // font can download with correct scaler setting
 
-        fosd_clear_display(0, 0x08, 40);
-        fosd_display_string(0, "HELLO WORLD!", 0x08);
+        fosd_clear_display(0, BG_BLUE | FG_DRED, 40);
+        fosd_display_string(0, "HELLO", BG_BLUE | FG_DRED);
 
         fosd_set_de();
         
         fosd_win_alpha(1, 0, 6);                  // Win1 for informatin, background color, transparent 6
-        fosd_win_alpha(0, 0, 8);                  // background color clear
+        fosd_win_alpha(0, BLUE, 8);               // background color clear
 
         fosd_win_enable(0, 1);                    // Window 0 enable for display
 
