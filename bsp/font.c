@@ -1,5 +1,26 @@
 #include "main.h"
 
+/* default Look Up Table */
+code unsigned short default_lut[] = 
+{ 
+	0x0000, 
+	0x0010, 
+	0x0400, 
+	0x0410, 
+	0x8000, 
+	0x8010, 
+	0x8400, 
+	0x8410, 
+	0xC618, 
+	0x001F, 
+	0x07E0, 
+	0x07FF, 
+	0xF800, 
+	0xF81F, 
+	0xFFE0, 
+	0xFFFF, 
+};
+
 code unsigned char FontOsdWinBase[] = 
 { 
     FONTWIN1_ST, 
@@ -225,7 +246,7 @@ void fosd_lut(unsigned int *PalettePtr, unsigned char StartAddr, unsigned char C
 {
     unsigned char i, j;
 
-	///WaitVBlankVS1(1);	
+	WaitVBlankVS1(1);	
 
 	tw884x_write(0xff, FONT_OSD_PAGE);
 
@@ -235,6 +256,7 @@ void fosd_lut(unsigned int *PalettePtr, unsigned char StartAddr, unsigned char C
 		tw884x_write(0x0A, j | i);			// select address
 		tw884x_write(0x0B, *PalettePtr>>8);
 		tw884x_write(0x0C, *PalettePtr);
+		
 		PalettePtr++;
 	}
 }
@@ -449,10 +471,10 @@ void fosd_clear_display(unsigned int pos, unsigned char attr, unsigned int cnt)
 
 	while (cnt--) 
     {
-		tw884x_write(0x02, pos>>8);		// write upper 2 bits
+		tw884x_write(0x02, pos>>8);			// write upper 2 bits
 		tw884x_write(0x03, pos);			// write low 8 bits
 		tw884x_write(0x04, 0x00);			// clear 9th bit
-		tw884x_write(0x05, ' ');				// font number
+		tw884x_write(0x05, ' ');			// font number
 		tw884x_write(0x06, attr);			// attribute
 
         pos++;
