@@ -60,6 +60,8 @@
 #define YELLO       0x0E        //0xFFE0
 #define WHITE       0x0F        //0xFFFF
 
+extern code unsigned short default_lut[];
+
 void fosd_enable(unsigned char en);
 void fosd_win_enable(unsigned char winno, unsigned char en);
 void fosd_win_alpha(unsigned char winno, unsigned char color, unsigned char alpha);
@@ -69,6 +71,9 @@ void fosd_win_ram_start(unsigned char winno, unsigned int start);
 void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_loc, unsigned int fSize, unsigned char width, unsigned char height);
 void fosd_clear_display(unsigned int pos, unsigned char attr, unsigned int cnt);
 void fosd_display_string(unsigned int pos, unsigned char *str, unsigned char attr);
+void fosd_lut(unsigned int *PalettePtr, unsigned char StartAddr, unsigned char Count);
+void fosd_win_zoom(unsigned char winno, unsigned char zoomh, unsigned char zoomv);
+void fosd_win_multicolor(unsigned char winno, unsigned char en);
 void fosd_set_de(void);
 
 #endif
