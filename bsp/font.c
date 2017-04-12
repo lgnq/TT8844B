@@ -60,9 +60,6 @@ void fosd_de_set(void)
 }
 #endif
 
-//=============================================================================
-//		void FOSDEnable(unsigned char en) // if OSD OFF cannot write any OSD data
-//=============================================================================
 void fosd_enable(unsigned char en)
 {
 	tw884x_write(0xff, FONT_OSD_PAGE);
@@ -326,10 +323,6 @@ void fosd_download_font_direct(unsigned char dest_font_idx, unsigned char *src_l
     auto_increment_control(OFF);
 }
 
-#if 1
-//=============================================================================
-//				   void FOSDDefaultLUT( unsigned char n ) // dump every Color LUTs
-//=============================================================================
 void fosd_ramp_lut(unsigned char n)
 {
     unsigned char i;
@@ -405,37 +398,37 @@ void fosd_display_lut(void)
 	tw884x_write(0x12, (width >> 2) * (height >> 1));	//sub-font total count.
 
 	tw884x_write(0x08, 0); 		//Font Addr	 0
-	for ( i=0; i<8; i++) 
+	for (i=0; i<8; i++) 
     {
-		tw884x_write(0x09, 0x00 );
-		tw884x_write(0x09, 0x00 );
-		tw884x_write(0x09, 0xFF );
-		tw884x_write(0x09, 0xFF );
+		tw884x_write(0x09, 0x00);
+		tw884x_write(0x09, 0x00);
+		tw884x_write(0x09, 0xFF);
+		tw884x_write(0x09, 0xFF);
 	}
 
     tw884x_write(0x08, 1); 		//Font Addr	 1
-	for (i=0; i<8; i++ )
+	for (i=0; i<8; i++)
     {
-		tw884x_write(0x09, 0x00 );
-		tw884x_write(0x09, 0xFF );
-		tw884x_write(0x09, 0x00 );
-		tw884x_write(0x09, 0xFF );
+		tw884x_write(0x09, 0x00);
+		tw884x_write(0x09, 0xFF);
+		tw884x_write(0x09, 0x00);
+		tw884x_write(0x09, 0xFF);
 	}
 
 	tw884x_write(0x01, 0);		// OSD RAM access mode OFF	 and all effect off
 
 	tw884x_write(0x02, tw884x_read(0x02)&0xFC);
-	for (i=0; i<64; i++ )
+	for (i=0; i<64; i++)
     {
-		tw884x_write(0x03, i );					// Font address
-		tw884x_write(0x05, 0 );					// Font Data
-		tw884x_write(0x06, i );		   			// attribute - Select LUT position
+		tw884x_write(0x03, i);					// Font address
+		tw884x_write(0x05, 0);					// Font Data
+		tw884x_write(0x06, i);		   			// attribute - Select LUT position
 	}
 
-	tw884x_write(0x0D, 0x00 );
-	tw884x_write(0x10, 0 );				// 2bit multi color start = 0
-	tw884x_write(0x0f, 0xFF );				// 3bit multi color start = 0
-	tw884x_write(0x0e, 0xFF );			// 4bit multi color start = 0
+	tw884x_write(0x0D, 0x00);
+	tw884x_write(0x10, 0);				// 2bit multi color start = 0
+	tw884x_write(0x0f, 0xFF);				// 3bit multi color start = 0
+	tw884x_write(0x0e, 0xFF);			// 4bit multi color start = 0
 
 	fosd_win_screen(3, 50, 100, 16, 4, 1, 1);
 	fosd_win_multicolor(3, 1);
@@ -452,7 +445,7 @@ void fosd_display_string(unsigned int pos, unsigned char *str, unsigned char att
 
 	while (*str)
     {
-		i2c_write(0x88, 0x02, pos);		// write upper 2 bits
+		i2c_write(0x88, 0x02, pos);		    // write upper 2 bits
 		tw884x_write(0x04, 0x00);			// clear 9th bit
 		tw884x_write(0x05, *str);
 		tw884x_write(0x06, attr);
@@ -492,5 +485,4 @@ void fosd_set_de(void)
 	tw884x_write(0xff, 0x03);
 	tw884x_write(0x14, tmp);
 }
-#endif
 
