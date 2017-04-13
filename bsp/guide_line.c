@@ -304,48 +304,48 @@ void guide_display(void)
 
 	if (Guide_linePos0 != 0L) 
     {
-		fosd_win_screen(0, Guide_linePos0[0]*ZOOM_H, Guide_linePos0[1]*ZOOM_V,Guide_linePos0[2], Guide_linePos0[3], 0, 0);
+		fosd_win_screen(0, Guide_linePos0[0]*ZOOM_H, Guide_linePos0[1]*ZOOM_V, Guide_linePos0[2], Guide_linePos0[3], 0, 0);
 		fosd_win_alpha(0, 0, 15);
 		fosd_win_zoom(0, ZOOM_H-1, ZOOM_V-1);
 		RamStart0 = 0;
-		fosd_win_ram_start(0,RamStart0);
-		RamStart1 = RamStart0 + (U16)Guide_linePos0[2]* (U16)Guide_linePos0[3];
+		fosd_win_ram_start(0, RamStart0);
+		RamStart1 = RamStart0 + (U16)Guide_linePos0[2] * (U16)Guide_linePos0[3];
 		fosd_win_multicolor(0, 1);
 	}
 
     if (Guide_linePos1 != 0L)
     {
-		fosd_win_screen(1, Guide_linePos1[0]*ZOOM_H, Guide_linePos1[1]*ZOOM_V,Guide_linePos1[2], Guide_linePos1[3], 0, 0);
+		fosd_win_screen(1, Guide_linePos1[0]*ZOOM_H, Guide_linePos1[1]*ZOOM_V, Guide_linePos1[2], Guide_linePos1[3], 0, 0);
 		fosd_win_alpha(1, 0, 15);
 		fosd_win_zoom(1, ZOOM_H-1, ZOOM_V-1);
-		fosd_win_ram_start(1,RamStart1);
-		RamStart2 = RamStart1 + (U16)Guide_linePos1[2]* (U16)Guide_linePos1[3];
+		fosd_win_ram_start(1, RamStart1);
+		RamStart2 = RamStart1 + (U16)Guide_linePos1[2] * (U16)Guide_linePos1[3];
 		fosd_win_multicolor(1, 1);
 	}
     
 	if (Guide_linePos2 != 0L)
     {
-		fosd_win_screen(2, Guide_linePos2[0]*ZOOM_H, Guide_linePos2[1]*ZOOM_V,Guide_linePos2[2], Guide_linePos2[3], 0, 0);
+		fosd_win_screen(2, Guide_linePos2[0]*ZOOM_H, Guide_linePos2[1]*ZOOM_V, Guide_linePos2[2], Guide_linePos2[3], 0, 0);
 		fosd_win_alpha(2, 0, 15);
 		fosd_win_zoom(2, ZOOM_H-1, ZOOM_V-1);
-		fosd_win_ram_start(2,RamStart2);
+		fosd_win_ram_start(2, RamStart2);
 		RamStart3 = RamStart2 + (U16)Guide_linePos2[2] * (U16)Guide_linePos2[3];
 		fosd_win_multicolor(2, 1);
 	}
 
 	if (Guide_linePos3 != 0L)
     {
-		fosd_win_screen(3, Guide_linePos3[0]*ZOOM_H, Guide_linePos3[1]*ZOOM_V,Guide_linePos3[2], Guide_linePos3[3], 0, 0);
+		fosd_win_screen(3, Guide_linePos3[0]*ZOOM_H, Guide_linePos3[1]*ZOOM_V, Guide_linePos3[2], Guide_linePos3[3], 0, 0);
 		fosd_win_alpha(3, 0, 15);
 		fosd_win_zoom(3, ZOOM_H-1, ZOOM_V-1);
-		fosd_win_ram_start(3,RamStart3);
+		fosd_win_ram_start(3, RamStart3);
 		fosd_win_multicolor(3, 1);
 	}
 
 	tw884x_write(0x01, tw884x_read(0x01)&~4); 			// OSD RAM Auto Access Enable
 
 	tw884x_write(0x01, (tw884x_read(0x01)&0xCF)); 		// Normal
-	tw884x_write(0x02, tw884x_read(0x02)&0xFE);					// Font address bit8 clear
+	tw884x_write(0x02, tw884x_read(0x02)&0xFE);			// Font address bit8 clear
 
 	// FILL blank font, 00, 00
 	for (i = 0; i < NO_OF_CHARS; i++)

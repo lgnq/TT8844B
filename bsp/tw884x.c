@@ -3663,6 +3663,7 @@ code unsigned char tw884x_evb_init[] =
 0xFE, 0xBF,
 0xFF, 0x02,
 
+#if 0
 0xFF, 0x03,  //; Page 3
 0x00, 0x00,
 0x01, 0x00,
@@ -3920,6 +3921,7 @@ code unsigned char tw884x_evb_init[] =
 0xFD, 0xBF,
 0xFE, 0xBF,
 0xFF, 0x03,
+#endif
 
 0xFF, 0x04,  //; Page 4
 0x00, 0x00,
@@ -5677,6 +5679,7 @@ void tw884x_init(void)
 
 		fosd_enable(1);
 
+#if 0
 		fosd_win_enable(0, 0);					// Window 0 for channel
 		fosd_win_screen(0, 50, 10, 20, 2, 1, 1);
 		fosd_win_ram_start(0, 0);
@@ -5699,10 +5702,11 @@ void tw884x_init(void)
         fosd_win_alpha(0, BLUE, 8);               // background color clear
 
         fosd_win_enable(0, 1);                    // Window 0 enable for display
+#else
+        guide_display();
+#endif
 
         backlight_onoff(ON);
-
-        guide_display();
         
         LED_G = 0;
     }

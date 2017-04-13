@@ -202,12 +202,12 @@ void fosd_win_style(unsigned char winno, unsigned char bdOn, unsigned char bdCol
 	tw884x_write(0xff, FONT_OSD_PAGE);
     
 	if (bdOn)
-		tw884x_write(idx+9, tw884x_read(idx+9)|0x80);		// enable boarder
+		tw884x_write(idx+9, tw884x_read(idx+9)|0x80);	// enable boarder
 	else
 		tw884x_write(idx+9, tw884x_read(idx+9)&~0x80);	// disable boarder
 
-	tw884x_write(idx+7, (tw884x_read(idx+7)&0x0F)|(bdColor<<4));		// set boarder color
-	tw884x_write(idx+9, (tw884x_read(idx+9)&0xE0)|(bdWidth));		// set boarder width
+	tw884x_write(idx+7, (tw884x_read(idx+7)&0x0F)|(bdColor<<4));		    // set boarder color
+	tw884x_write(idx+9, (tw884x_read(idx+9)&0xE0)|(bdWidth));		        // set boarder width
 	tw884x_write(idx+0xE, (tw884x_read(idx+0xE)|(bdSpaceH)));				// set boarder space H
 	tw884x_write(idx+0xF, (tw884x_read(idx+0xF)|(bdSpaceV)));				// set boarder space V
 
