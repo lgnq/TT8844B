@@ -445,6 +445,11 @@
               <FileType>1</FileType>
               <FilePath>.\bsp\font.c</FilePath>
             </File>
+            <File>
+              <FileName>guide_line.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\guide_line.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
