@@ -282,7 +282,7 @@ void guide_display(void)
 	else
 		tw884x_write(0x0D, tw884x_read(0x0D) & ~2);		// clear bit2
     
-	tw884x_write( 0x0F, Start3bit );						// 3bit multi color start
+	tw884x_write(0x0F, Start3bit);						// 3bit multi color start
 #else
 	tw884x_write(0x0D, tw884x_read(0x0D) | 2);			// set bit2
 	tw884x_write(0x0F, 0xFF);							// 3bit multi color start = 1FF
@@ -300,7 +300,7 @@ void guide_display(void)
 	tw884x_write(0x0E, 0xFF);							// 4bit multi color start = 1FF
 #endif
 
-	fosd_lut((U16 *)guide_line_lut, 0, 16);		// LUT download
+	fosd_lut(guide_line_lut, 0, 16);		// LUT download
 
 	if (Guide_linePos0 != 0L) 
     {
@@ -372,19 +372,19 @@ void guide_display(void)
         {
 			if (i < RamStart1)
             {
-				tw884x_write(0x06, Guide_lineColor0[i]);			        // Font Attribute
+				tw884x_write(0x06, ((U8 *)Guide_lineColor0)[i]);			        // Font Attribute
 			}
 			else if (i < RamStart2)
             {
-				tw884x_write(0x06, Guide_lineColor1[i-RamStart1]);			// Font Attribute
+				tw884x_write(0x06, ((U8 *)Guide_lineColor1)[i-RamStart1]);			// Font Attribute
 			}
 			else if (i < RamStart3)
             {
-				tw884x_write(0x06, Guide_lineColor2[i-RamStart2]);			// Font Attribute
+				tw884x_write(0x06, ((U8 *)Guide_lineColor2)[i-RamStart2]);			// Font Attribute
 			}
 			else
             {
-				tw884x_write(0x06, Guide_lineColor3[i-RamStart3]);			// Font Attribute
+				tw884x_write(0x06, ((U8 *)Guide_lineColor3)[i-RamStart3]);			// Font Attribute
 			}
 		}
 		else

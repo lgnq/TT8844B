@@ -116,7 +116,8 @@ void WATCHDOG_Init(void)
 void WATCHDOG_Update(void)
 {
     // Feed the watchdog
-    PCA0CPH4 = 0xFF;
+    //PCA0CPH4 = 0xFF;
+    PCA0CPH4 = 0x0;
 }
 
 /*--------------------------------------------------------------------*-

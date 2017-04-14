@@ -88,7 +88,7 @@ void key_update(void)
         {
             case KEY_MODE:
                 putc('m');
-                //guide_display();  //WDT!?
+                guide_display();  //WDT!?
                 break;
             case KEY_ENTER:
                 putc('e');

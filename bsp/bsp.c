@@ -10,20 +10,20 @@ void delay(void)
 
 void sysclk_init(void)
 {
-    OSCICN |= 0x03;                     // Configure internal oscillator for
+    OSCICN |= 0x03;                // Configure internal oscillator for
                                    // its maximum frequency and enable
                                    // missing clock detector
 
-    CLKMUL  = 0x00;                     // Select internal oscillator as
+    CLKMUL  = 0x00;                // Select internal oscillator as
                                    // input to clock multiplier
 
-    CLKMUL |= 0x80;                     // Enable clock multiplier
-    delay();                            // Delay for clock multiplier to begin
-    CLKMUL |= 0xC0;                     // Initialize the clock multiplier
-    delay();                            // Delay for clock multiplier to begin
+    CLKMUL |= 0x80;                // Enable clock multiplier
+    delay();                       // Delay for clock multiplier to begin
+    CLKMUL |= 0xC0;                // Initialize the clock multiplier
+    delay();                       // Delay for clock multiplier to begin
 
-    while(!(CLKMUL & 0x20));            // Wait for multiplier to lock
-    CLKSEL  = 0x03;                     // Select system clock from internal High-Frequency Osc = 48MHz
+    while(!(CLKMUL & 0x20));       // Wait for multiplier to lock
+    CLKSEL  = 0x03;                // Select system clock from internal High-Frequency Osc = 48MHz
 }
 
 //-----------------------------------------------------------------------------
