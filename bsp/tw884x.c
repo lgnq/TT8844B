@@ -5714,6 +5714,8 @@ void tw884x_init(void)
     {
         LED_G = 0;
     }
+
+    spi_flash_detect();
 }
 
 void WaitVBlankVS1(unsigned char cnt)

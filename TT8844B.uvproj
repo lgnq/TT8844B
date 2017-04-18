@@ -450,6 +450,11 @@
               <FileType>1</FileType>
               <FilePath>.\bsp\guide_line.c</FilePath>
             </File>
+            <File>
+              <FileName>spiflash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\bsp\spiflash.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

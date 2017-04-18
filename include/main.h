@@ -81,6 +81,7 @@ typedef int int16_t;
 #include "i2c.h"
 #include "uart.h"
 #include "tw884x.h"
+#include "spiflash.h"
 
 #include "font.h"
 
